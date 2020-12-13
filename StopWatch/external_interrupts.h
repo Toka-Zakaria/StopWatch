@@ -24,9 +24,9 @@
 #define ENABLE                                  TRUE
 #define DISABLE                                 FALSE
 
-#define INTERNAL_PULL_UP_INT0                  DISABLE
+#define INTERNAL_PULL_UP_INT0                  ENABLE
 #define INTERNAL_PULL_UP_INT1                  DISABLE
-#define INTERNAL_PULL_UP_INT2                  DISABLE
+#define INTERNAL_PULL_UP_INT2                  ENABLE
 
 #define INTERRUPT1_SENSE_CONTROL_BITS            2
 
