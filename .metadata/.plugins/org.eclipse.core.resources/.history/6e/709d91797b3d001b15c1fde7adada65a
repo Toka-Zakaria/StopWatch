@@ -1,0 +1,97 @@
+/*
+ * application_functions.h
+ *
+ *  Created on: Oct 17, 2020
+ *      Author: Toka
+ */
+
+#ifndef APPLICATION_FUNCTIONS_H_
+#define APPLICATION_FUNCTIONS_H_
+
+#include "std_types.h"
+#include "micro_config.h"
+#include "common_macros.h"
+
+#include"timer.h"
+#include"external_interrupts.h"
+
+/*
+ * MACROs for 7-segments control lines in PORTA
+ */
+#define SEGMENT1    0X01
+#define SEGMENT2    0X02
+#define SEGMENT3    0X04
+#define SEGMENT4    0X08
+#define SEGMENT5    0X10
+#define SEGMENT6    0X20
+
+
+#define SEVEN_SEGMENTS_DIRECTION_DATA_LINE_PORT             DDRC
+#define SEVEN_SEGMENTS_DATA_DATA_LINE_PORT                  PORTC
+
+
+#define SEVEN_SEGMENTS_DIRECTION_CONTROL_LINE_PORT          DDRA
+#define SEVEN_SEGMENTS_CONTROL_CONTROL_LINE_PORT            PORTA
+
+#define INITIAL_VALUE                                        0
+#define COMPARE_VALUE                                        1000
+
+#define MAXIMUM_SECONDS                                     60
+#define MAXIMUM_MINUTES                                     60
+#define MAXIMUM_HOUR                                        24
+
+#define INITIAL_COUNT                                       0
+/*
+ * Variable to check if the interrupt of TIMER1 happen or not
+ */
+extern uint8 g_tick;
+/*
+ * Variable to increment the value of the seconds
+ */
+extern uint8 g_seconds;
+/*
+ * Variable to increment the value of the minutes
+ */
+extern uint8 g_minutes;
+/*
+ * Variable to increment the value of the hours
+ */
+extern uint8 g_hours;
+
+extern Timer_ConfigType timer;
+/***************************************************************************************************
+ * [Function Name]: Reset_stopWatch
+ *
+ * [Description]:  Function to reset the stopWatch to restart
+ *                 the stopWatch to begin from 0 again
+ *
+ * [Args]:         NONE
+ *
+ *
+ * [In]            NONE
+ *
+ * [Out]           NONE
+ *
+ * [Returns]:      NONE
+ ***************************************************************************************************/
+void Reset_stopWatch(void);
+/***************************************************************************************************
+ * [Function Name]: Stop_stopWatch
+ *
+ * [Description]:  Function to stop the stopWatch to freeze
+ *                 on the value which stopped at
+ *
+ * [Args]:         NONE
+ *
+ *
+ * [In]            NONE
+ *
+ * [Out]           NONE
+ *
+ * [Returns]:      NONE
+ ***************************************************************************************************/
+void Stop_stopWatch(void);
+void Resume_stopWatch(void);
+void DetectSecond(void);
+
+#endif /* APPLICATION_FUNCTIONS_H_ */

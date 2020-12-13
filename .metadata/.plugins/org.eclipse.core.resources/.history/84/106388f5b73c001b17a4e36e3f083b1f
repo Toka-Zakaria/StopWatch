@@ -1,0 +1,37 @@
+/*
+ * external_interrupts.h
+ *
+ *  Created on: Dec 12, 2020
+ *      Author: Toka
+ */
+
+#ifndef EXTERNAL_INTERRUPTS_H_
+#define EXTERNAL_INTERRUPTS_H_
+
+
+/**************************************************************************
+ *                                   INT0
+ * ************************************************************************/
+/*INT0 REGISTERS*/
+
+
+
+
+typedef enum
+{
+
+INT0, INT1, IN2
+
+}Interrupt_ID;
+
+
+typedef enum
+{
+
+Low_level, Any_logical ,Raising, Failing
+
+}Interrupt_control;
+
+
+
+#endif /* EXTERNAL_INTERRUPTS_H_ */

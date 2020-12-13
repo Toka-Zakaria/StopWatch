@@ -1,0 +1,204 @@
+/*
+ * StopWatch.c
+ *
+ *  Created on: Dec 12, 2020
+ *      Author: Toka
+ */
+
+#include"application_functions.h"
+
+/*MACROs for 7-segments control lines in PORTA*/
+#define SEGMENT1    0X01
+#define SEGMENT2    0X02
+#define SEGMENT3    0X04
+#define SEGMENT4    0X08
+#define SEGMENT5    0X10
+#define SEGMENT6    0X20
+
+/*********************Global Variables************************/
+
+/*Variable to check if the interrupt of TIMER1 happen or not*/
+unsigned char tick=0;
+/*Variable to increment the value of the seconds*/
+unsigned char Seconds=0;
+/*Variable to increment the value of the minutes*/
+unsigned char Minutes=0;
+/*Variable to increment the value of the hours*/
+unsigned char Hours=0;
+#if 0
+void int0_func(void)
+{
+	/*Clear first four pins in PORTC*/
+	PORTC = PORTC & 0XF0;
+	/*Clear all variables of the StopWatch to return increment
+	 * from the begin*/
+	Seconds=0;
+	Minutes=0;
+	Hours=0;
+}
+
+
+void int1_func(void)
+{
+	/*Clear bits of the clock generation of the timer*/
+	TCCR1B &= (~(1<<CS12)) & (~(1<<CS11)) &  (~(1<<CS10));
+}
+
+void int2_func(void)
+{
+	/*Set the bits of clock source of the timer again with presscaler
+	 * 1024*/
+	TCCR1B |= (1<<CS10) |(1<<CS12);
+}
+#endif
+
+void timer_func(void)
+{
+	/*Increment a variable to check how many times the ISR happen*/
+	tick++;
+}
+
+int main(void)
+{
+	/*Configure first 4 pins in PORTC as output pins (Data Lines)*/
+	DDRC |= 0X0F;
+	/*configure first 6 pins in PORTA As output pins(control lines)*/
+	DDRA |= 0X3F;
+	/*initial value 5 volt to display all segments in
+	 * the same time for the first time*/
+	PORTA |= 0X3F;
+	/*Initial value for the begin of the 7 segment
+	 *all segments = 0 in the first*/
+	PORTC = PORTC & 0XF0;
+	SREG |= (1<<7);
+	//External_Interrupt_ConfigType int0= {INTERRUPT0, Falling};
+	//External_Interrupt_ConfigType int1= {INTERRUPT1, Raising};
+	//External_Interrupt_ConfigType int2= {INTERRUPT2, Falling};
+
+	Timer_ConfigType timer= {0,1000, Timer1, F_CPU_1024,Compare};
+
+
+
+	Timer_setCallBack(timer_func, Timer1);
+
+	Timer_init(&timer);
+
+	//Interrupt_setCallBack(int0_func, INTERRUPT0);
+	//External_Interrupt_init(&int0);
+
+	//Interrupt_setCallBack(int1_func, INTERRUPT1);
+	//External_Interrupt_init(&int1);
+
+
+	//Interrupt_setCallBack(int2_func, INTERRUPT2);
+	//External_Interrupt_init(&int2);
+
+	//Timer_init(&timer);
+
+
+	while(1)
+	{
+
+		/*Check if the interrupt of the Timer1 happen or not*/
+		if (tick == 1)
+		{
+			/*Increment the seconds of the StopWatch*/
+			Seconds++;
+			/*Check if 1 minute passed or not if yes increment
+			 *minutes1 and start the seconds to increment from 0 again */
+			if(Seconds == 60){
+				Seconds= 0;
+				Minutes++;
+			}
+
+
+			/*Check if 1 hour passed or not if yes increment hours 1
+			 *and start the Minutes & Seconds to increment from 0 again*/
+			if(Minutes==60){
+				Seconds=0;
+				Minutes=0;
+				Hours++;
+			}
+
+
+			/*Check if 1 hour passed or not if yes increment hours 1
+			 *and start the Minutes & Seconds hours to increment from 0 again
+			 *and this condition is true every 1000 melly seconds*/
+			if(Hours==24){
+				Seconds=0;
+				Minutes=0;
+				Hours= 0;
+			}
+
+			/*Return the value of tick to be 0 again to be
+			 * ready for the next*/
+			tick=0;
+
+		}/*end of first if statement*/
+
+
+
+		/*Description of these block code: The Timer interrupt happen every
+		 * one second, the duration of every iteration of the loop
+		 * is 30 melly second and 1 second has 1000 melly seconds, so the
+		 * tick will increment every 1000 melly second but tick stay 0
+		 * every 1000/30 iteration so we have to save the values of digits
+		 * while incrementing these iteration so if the tick != 1,and
+		 * this will happen every 30 melly second iteration until it reaches
+		 * 100 melly seconds, so if the condition false we have to save the
+		 * values on the digits until the next increment */
+
+		/*******************************************************************/
+
+		/*This condition happen every 30 melly seconds*/
+
+
+			/***************Display Second*****************/
+
+			/*Display first segment only,turn off the others, display the data*/
+			PORTA = (PORTA & 0XC0) | SEGMENT1;
+			PORTC = (PORTC & 0XF0) | ( (Seconds%10) & 0X0F);
+			_delay_ms(1);
+
+			/*Display second segment only,turn off the others, display the data*/
+			PORTA = (PORTA & 0XC0) | SEGMENT2;
+			PORTC = (PORTC & 0XF0) | ( (Seconds/10) & 0X0F);
+			_delay_ms(1);
+
+
+
+
+			/********************Display Minutes**************************/
+
+
+			/*Display third segment only,turn off the others, display the data*/
+			PORTA = (PORTA & 0XC0) | SEGMENT3;
+			PORTC = (PORTC & 0XF0) | ( (Minutes%10) & 0X0F);
+			_delay_ms(1);
+
+
+			/*Display fourth segment only,turn off the others, display the data*/
+			PORTA = (PORTA & 0XC0) | SEGMENT4;
+			PORTC = (PORTC & 0XF0) | ( (Minutes/10) & 0X0F);
+			_delay_ms(1);
+
+
+			/**********************Display Hours**************************/
+
+
+			/*Display fifth segment only,turn off the others, display the data*/
+			PORTA = (PORTA & 0XC0) | SEGMENT5;
+			PORTC = (PORTC & 0XF0) | ( (Hours%10) & 0X0F);
+			_delay_ms(1);
+
+			/*Display sixth segment only,turn off the others, display the data*/
+			PORTA = (PORTA & 0XC0) | SEGMENT6;
+			PORTC = (PORTC & 0XF0) | ( (Hours/10) & 0X0F);
+			_delay_ms(1);
+
+
+		/*****************************************************************/
+
+	}/*end of Superloop*/
+}/*end of main*/
+

@@ -1,0 +1,42 @@
+/*
+ * application_functions.c
+ *
+ *  Created on: Dec 13, 2020
+ *      Author: Toka
+ */
+
+
+#include"application_functions.h"
+
+void int0_func(void)
+{
+	PORTD |= (1<<PD2);
+	/*Clear first four pins in PORTC*/
+	PORTC = PORTC & 0XF0;
+	/*Clear all variables of the StopWatch to return increment
+	 * from the begin*/
+	Seconds=0;
+	Minutes=0;
+	Hours=0;
+}
+
+
+void int1_func(void)
+{
+	/*Clear bits of the clock generation of the timer*/
+	TCCR1B &= (~(1<<CS12)) & (~(1<<CS11)) &  (~(1<<CS10));
+}
+
+void int2_func(void)
+{
+	/*Set the bits of clock source of the timer again with presscaler
+	 * 1024*/
+	TCCR1B |= (1<<CS10) |(1<<CS12);
+}
+
+
+void timer_func(void)
+{
+	/*Increment a variable to check how many times the ISR happen*/
+	tick++;
+}

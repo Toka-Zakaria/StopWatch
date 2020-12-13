@@ -1,0 +1,50 @@
+/*
+ * external_interrupts.h
+ *
+ *  Created on: Dec 12, 2020
+ *      Author: Toka
+ */
+
+#ifndef EXTERNAL_INTERRUPTS_H_
+#define EXTERNAL_INTERRUPTS_H_
+
+
+/**************************************************************************
+ *                                   INT0
+ * ************************************************************************/
+/*INT0 REGISTERS*/
+
+#define MCU_CONTROL_REGISTER                   MCUCR
+#define MCU_CONTROL_AND_STATUS_REGISTER        MCUCSR
+#define GENERAL_INTERRUPT_CONTROL_REGISTER      GISR
+#define GENERAL_INTERRUPT_FLAG_REGISTER         GIFR
+
+#define INTERRUPT_SENSE_CONTROL_0_BIT_0         ISC00
+#define INTERRUPT_SENSE_CONTROL_0_BIT_1         ISC01
+#define INTERRUPT_SENSE_CONTROL_1_BIT_0         ISC10
+#define INTERRUPT_SENSE_CONTROL_1_BIT_1         ISC11
+#define INTERRUPT_SENSE_CONTROL_2               ISC2
+
+#define EXTERNAL_INTERRUPT_FLAG_0               INTF0
+#define EXTERNAL_INTERRUPT_FLAG_1               INTF1
+#define EXTERNAL_INTERRUPT_FLAG_2               INTF2
+
+
+typedef enum
+{
+
+INT0, INT1, IN2
+
+}Interrupt_ID;
+
+
+typedef enum
+{
+
+Low_level, Any_logical ,Raising, Failing
+
+}Interrupt_control;
+
+
+
+#endif /* EXTERNAL_INTERRUPTS_H_ */

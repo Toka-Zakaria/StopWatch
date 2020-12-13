@@ -1,0 +1,19 @@
+/*
+ * application_functions.h
+ *
+ *  Created on: Dec 12, 2020
+ *      Author: Toka
+ */
+
+#ifndef APPLICATION_FUNCTIONS_H_
+#define APPLICATION_FUNCTIONS_H_
+
+#include "std_types.h"
+#include "micro_config.h"
+#include "common_macros.h"
+
+#include"timer.h"
+
+
+
+#endif /* APPLICATION_FUNCTIONS_H_ */

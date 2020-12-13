@@ -1,0 +1,26 @@
+/*
+ * StopWatch.c
+ *
+ *  Created on: Dec 12, 2020
+ *      Author: Toka
+ */
+
+#include"application_functions.h"
+
+int main(void)
+{
+
+	Timer_ConfigType timer= {0,1000, Timer1, F_CPU_1024,Compare};
+	External_Interrupt_ConfigType int0= {INTERRUPT0, Falling};
+	External_Interrupt_ConfigType int1= {INTERRUPT1, Raising};
+	External_Interrupt_ConfigType int2= {INTERRUPT2, Falling};
+
+	void External_Interrupt_init(External_Interrupt_ConfigType* Config_Ptr);
+
+
+	while(1)
+	{
+
+	}/*end of Superloop*/
+}/*end of main*/
+

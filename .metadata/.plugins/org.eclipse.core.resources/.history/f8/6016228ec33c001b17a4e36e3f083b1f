@@ -1,0 +1,18 @@
+/*
+ * StopWatch.c
+ *
+ *  Created on: Dec 12, 2020
+ *      Author: Toka
+ */
+
+#include"application_functions.h"
+
+int main(void)
+{
+
+	while(1)
+	{
+
+	}/*end of Superloop*/
+}/*end of main*/
+

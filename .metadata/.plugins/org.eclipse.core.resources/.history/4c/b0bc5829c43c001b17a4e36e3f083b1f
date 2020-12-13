@@ -1,0 +1,20 @@
+/*
+ * StopWatch.c
+ *
+ *  Created on: Dec 12, 2020
+ *      Author: Toka
+ */
+
+#include"application_functions.h"
+
+int main(void)
+{
+
+	Timer_ConfigType timer= {0,1000, Timer1, F_CPU_1024,Compare}
+
+	while(1)
+	{
+
+	}/*end of Superloop*/
+}/*end of main*/
+

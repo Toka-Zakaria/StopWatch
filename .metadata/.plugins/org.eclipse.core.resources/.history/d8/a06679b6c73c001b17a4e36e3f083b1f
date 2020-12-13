@@ -1,0 +1,71 @@
+/*
+ * StopWatch.c
+ *
+ *  Created on: Dec 12, 2020
+ *      Author: Toka
+ */
+
+#include"application_functions.h"
+
+void int0_func(void)
+{
+	/*Clear first four pins in PORTC*/
+	PORTC = PORTC & 0XF0;
+	/*Clear all variables of the StopWatch to return increment
+	 * from the begin*/
+	Seconds=0;
+	Minutes=0;
+	Hours=0;
+}
+
+
+void int1_func(void)
+{
+	/*Clear bits of the clock generation of the timer*/
+	TCCR1B &= (~(1<<CS12)) & (~(1<<CS11)) &  (~(1<<CS10));
+}
+
+void int2_func(void)
+{
+	/*Set the bits of clock source of the timer again with presscaler
+	 * 1024*/
+	TCCR1B |= (1<<CS10) |(1<<CS12);
+}
+
+void timer(void)
+{
+	/*Increment a variable to check how many times the ISR happen*/
+	tick++;
+}
+int main(void)
+{
+
+	Timer_ConfigType timer= {0,1000, Timer1, F_CPU_1024,Compare};
+	External_Interrupt_ConfigType int0= {INTERRUPT0, Falling};
+	External_Interrupt_ConfigType int1= {INTERRUPT1, Raising};
+	External_Interrupt_ConfigType int2= {INTERRUPT2, Falling};
+
+	External_Interrupt_init(&int0);
+
+	External_Interrupt_init(&int1);
+
+	External_Interrupt_init(&int2);
+
+	Timer_init(&timer);
+
+	void Timer_setCallBack(void(*a_ptr)(v, Timer_Type timer_type );
+
+	 Interrupt_setCallBack(int0_func, INTERRUPT0);
+	 Interrupt_setCallBack(int1_func, INTERRUPT1);
+	 Interrupt_setCallBack(int2_func, INTERRUPT2);
+
+
+
+
+
+	while(1)
+	{
+
+	}/*end of Superloop*/
+}/*end of main*/
+

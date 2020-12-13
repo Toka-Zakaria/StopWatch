@@ -1,0 +1,110 @@
+/*
+ * extrnal_interrupts.c
+ *
+ *  Created on: Dec 12, 2020
+ *      Author: Toka
+ */
+
+#include"external_interrupts.h"
+
+
+/* Global variables to hold the address of the call back function in the application */
+static volatile void (*g_INT0_callBackPtr)(void) = NULL_PTR;
+static volatile void (*g_INT1_callBackPtr)(void) = NULL_PTR;
+static volatile void (*g_INT2_callBackPtr)(void) = NULL_PTR;
+
+void External_Interrupt(External_Interrupt_ConfigType* Config_Ptr)
+{
+
+	switch(Config_Ptr->INT_ID)
+	{
+
+	case INTERRUPT0:
+
+		INTERRUPT0_DIRECTION_PORT = CLEAR_BIT(INTERRUPT0_DIRECTION_PORT, INTERRUPT0_PIN);
+
+#if (INTERNAL_PULL_UP_INT0 != 0)
+		{
+
+			/*Activate internal pull up for interrupt 0*/
+			INTERRUPT0_DATA_PORT = SET_BIT(INTERRUPT0_DATA_PORT, INTERRUPT0_PIN);
+
+		}/*end of INTERNAL_PULL_UP_INT0  */
+#endif
+
+
+		MCU_CONTROL_REGISTER = (MCU_CONTROL_REGISTER & 0XFC) | (Config_Ptr->INT_control) ;
+		GENERAL_INTERRUPT_CONTROL_REGISTER = (GENERAL_INTERRUPT_CONTROL_REGISTER & 0XBF) | (1<<INT0);
+
+		break;
+
+	case INTERRUPT1:
+
+		INTERRUPT1_DIRECTION_PORT = CLEAR_BIT(INTERRUPT1_DIRECTION_PORT, INTERRUPT1_PIN);
+
+#if (INTERNAL_PULL_UP_INT1 != 0)
+		{
+
+			/*Activate internal pull up for interrupt 0*/
+			INTERRUPT0_DATA_PORT = SET_BIT(INTERRUPT1_DATA_PORT, INTERRUPT1_PIN);
+
+		}/*end of INTERNAL_PULL_UP_INT0  */
+#endif
+
+
+		MCU_CONTROL_REGISTER = (MCU_CONTROL_REGISTER & 0XF3) | (Config_Ptr->INT_control);
+		GENERAL_INTERRUPT_CONTROL_REGISTER = (GENERAL_INTERRUPT_CONTROL_REGISTER & 0X8F) | (1<<INT1);
+
+
+		break;
+
+	case INTERRUPT2:
+
+
+		INTERRUPT2_DIRECTION_PORT = CLEAR_BIT(INTERRUPT2_DIRECTION_PORT, INTERRUPT2_PIN);
+
+#if (INTERNAL_PULL_UP_INT2 != 0)
+		{
+
+			/*Activate internal pull up for interrupt 0*/
+			INTERRUPT2_DATA_PORT = SET_BIT(INTERRUPT2_DATA_PORT, INTERRUPT2_PIN);
+
+		}/*end of INTERNAL_PULL_UP_INT0  */
+#endif
+
+
+		MCU_CONTROL_AND_STATUS_REGISTER = (MCU_CONTROL_AND_STATUS_REGISTER & 0XBF) | (Config_Ptr->INT_control);
+
+		GENERAL_INTERRUPT_CONTROL_REGISTER = (GENERAL_INTERRUPT_CONTROL_REGISTER & 0X8F) | (1<<INT2);
+
+		break;
+
+
+	}/*end of switch case*/
+
+}/*end of External_Interrupt function*/
+
+
+void Timer_setCallBack(void(*a_ptr)(void), Interrupt_ID Interrupt_type )
+{
+
+	switch(Interrupt_type)
+	{
+	case INTERRUPT0:
+		/* Save the address of the Call back function in a global variable */
+		g_INT0_callBackPtr = a_ptr;
+		break;
+
+	case Timer1:
+		/* Save the address of the Call back function in a global variable */
+		g_INT1_callBackPtr = a_ptr;
+		break;
+
+	case Timer2:
+		/* Save the address of the Call back function in a global variable */
+		g_INT2_callBackPtr = a_ptr;
+		break;
+	} /*End of the switch case*/
+
+}/*End of the setCallBack function*/
+

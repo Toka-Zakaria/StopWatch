@@ -1,0 +1,31 @@
+/*
+ * extrnal_interrupts.c
+ *
+ *  Created on: Dec 12, 2020
+ *      Author: Toka
+ */
+
+#include"external_interrupts.h"
+
+void External_Interrupt(External_Interrupt_ConfigType* Config_Ptr)
+{
+
+	switch(Config_Ptr->INT_ID)
+	{
+
+	case INTERRUPT0:
+		break;
+
+	case INTERRUPT1:
+		break;
+
+	case INTERRUPT2:
+		break;
+
+
+
+
+	}/*end of switch case*/
+
+
+}/*end of External_Interrupt function*/

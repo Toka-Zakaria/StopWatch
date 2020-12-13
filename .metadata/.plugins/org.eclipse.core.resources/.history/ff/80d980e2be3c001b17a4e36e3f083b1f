@@ -1,0 +1,37 @@
+/*
+ * extrnal_interrupts.c
+ *
+ *  Created on: Dec 12, 2020
+ *      Author: Toka
+ */
+
+#include"external_interrupts.h"
+
+void External_Interrupt(External_Interrupt_ConfigType* Config_Ptr)
+{
+
+	switch(Config_Ptr->INT_ID)
+	{
+
+	case INTERRUPT0:
+
+		INTERRUPT0_DIRECTION_PORT = CLEAR_BIT(INTERRUPT0_DIRECTION_PORT, INTERRUPT0_PIN);
+
+		MCU_CONTROL_REGISTER = (MCU_CONTROL_REGISTER & 0XFC) | (Config_Ptr->INT_control) ;
+		GENERAL_INTERRUPT_CONTROL_REGISTER = (GENERAL_INTERRUPT_CONTROL_REGISTER & 0XBF) | (1<<INT0);
+
+		break;
+
+	case INTERRUPT1:
+		break;
+
+	case INTERRUPT2:
+		break;
+
+
+
+
+	}/*end of switch case*/
+
+
+}/*end of External_Interrupt function*/

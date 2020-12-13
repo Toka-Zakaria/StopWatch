@@ -1,0 +1,15 @@
+/*
+ * extrnal_interrupts.c
+ *
+ *  Created on: Dec 12, 2020
+ *      Author: Toka
+ */
+
+
+
+void External_Interrupt(External_Interrupt_ConfigType* Config_Ptr)
+{
+
+
+
+}/*end of External_Interrupt function*/

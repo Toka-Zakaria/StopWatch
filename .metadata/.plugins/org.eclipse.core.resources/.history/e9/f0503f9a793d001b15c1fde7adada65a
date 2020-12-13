@@ -1,0 +1,49 @@
+/**********************************************************************************
+ * [FILE NAME]:  external_interrupts.h
+ *
+ * [AUTHOR]: Toka Zakaria Mohamed Ramadan
+ *
+ * [DATE CREATED]: Oct 17, 2020
+ *
+ * [Description]: File of All types Declaration and Functions prototypes of
+ *                External Interrupts configuration.
+ *
+ ***********************************************************************************/
+
+
+#include"application_functions.h"
+
+void Reset_stopWatch(void)
+{
+
+	/*
+	 * Clear all variables of the StopWatch to
+	 * return increment from the begin
+	 */
+	g_seconds=0;
+	g_minutes=0;
+	g_hours=0;
+}
+
+
+void Stop_stopWatch(void)
+{
+
+	Timer_stop(Timer1);
+}
+
+void Resume_stopWatch(void)
+{
+
+	Timer_init(&timer);
+
+}
+
+
+void DetectSecond(void)
+{
+	/*
+	 * Increment a variable to check how many times the ISR happen
+	 */
+	g_tick++;
+}
