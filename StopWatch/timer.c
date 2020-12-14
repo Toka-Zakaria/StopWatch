@@ -490,7 +490,7 @@ void Timer_setCallBack(void(*a_ptr)(void), Timer_Type timer_type )
 
 
 /***************************************************************************************************
- * [Function Name]: Timer_setCallBack
+ * [Function Name]: Timer_stop
  *
  * [Description]:  Function to stop the clock of the timer to stop incrementing
  *
@@ -548,7 +548,7 @@ void Timer_stop(Timer_Type timer_type)
 
 
 /***************************************************************************************************
- * [Function Name]: Timer_setCallBack
+ * [Function Name]: Timer_Definite
  *
  * [Description]:  Function to DeInit the timer to start again from beginning
  *
