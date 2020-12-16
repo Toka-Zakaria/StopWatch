@@ -70,7 +70,7 @@ ISR(TIMER1_COMPA_vect)
  * ************************************************************************/
 ISR(TIMER2_OVF_vect)
 {
-	if(g_Timer0_callBackPtr != NULL_PTR)
+	if(g_Timer2_callBackPtr != NULL_PTR)
 	{
 		/* Call the Call Back function in the application after the edge is detected */
 		(*g_Timer2_callBackPtr)(); /* another method to call the function using pointer to function g_callBackPtr(); */
